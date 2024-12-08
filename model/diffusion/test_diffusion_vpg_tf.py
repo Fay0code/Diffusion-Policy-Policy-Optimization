@@ -64,37 +64,37 @@ class TestVPGDiffusion(unittest.TestCase):
         self.vpg_diffusion.actor_ft(x, time, cond)
     
 
-    # def test_step(self):
-    #     initial_steps = self.vpg_diffusion.ft_denoising_steps
-    #     self.vpg_diffusion.step()
-    #     self.assertEqual(self.vpg_diffusion.ft_denoising_steps, initial_steps)
+    def test_step(self):
+        initial_steps = self.vpg_diffusion.ft_denoising_steps
+        self.vpg_diffusion.step()
+        self.assertEqual(self.vpg_diffusion.ft_denoising_steps, initial_steps)
 
-    # def test_get_min_sampling_denoising_std(self):
-    #     std = self.vpg_diffusion.get_min_sampling_denoising_std()
-    #     self.assertEqual(std, 0.1)
+    def test_get_min_sampling_denoising_std(self):
+        std = self.vpg_diffusion.get_min_sampling_denoising_std()
+        self.assertEqual(std, 0.1)
 
-    # def test_p_mean_var(self):
-    #     x = tf.random.normal((2, 4, 3))
-    #     t = tf.constant([19,19], dtype=tf.int32)
-    #     cond = {'state': tf.random.normal((2, 4, 11))}
-    #     index = tf.constant([0, 1], dtype=tf.int32)
-    #     r=self.vpg_diffusion.p_mean_var(x, t, cond, index) 
-    #     print("r:", r)  
-        # # mu, logvar, etas = self.vpg_diffusion.p_mean_var(x, t, cond, index)   
-        # self.assertEqual(mu.shape, x.shape)
-        # self.assertEqual(logvar.shape, (2,1,1))
-        # self.assertEqual(etas.shape, x.shape)
+    def test_p_mean_var(self):
+        x = tf.random.normal((2, 4, 3))
+        t = tf.constant([19,19], dtype=tf.int32)
+        cond = {'state': tf.random.normal((2, 4, 11))}
+        index = tf.constant([0, 1], dtype=tf.int32)
+        # r=self.vpg_diffusion.p_mean_var(x, t, cond, index) 
+        # print("r:", r)  
+        mu, logvar, etas = self.vpg_diffusion.p_mean_var(x, t, cond, index)   
+        self.assertEqual(mu.shape, x.shape)
+        self.assertEqual(logvar.shape, (2,1,1))
+        self.assertEqual(etas.shape, x.shape)
 
-    # def test_call(self):
-    #     cond = {'state': tf.random.normal((2, 4, 11))}
-    #     sample = self.vpg_diffusion(cond)
-    #     self.assertEqual(sample.trajectories.shape, (2, 4, 3))
+    def test_call(self):
+        cond = {'state': tf.random.normal((2, 4, 11))}
+        sample = self.vpg_diffusion(cond)
+        self.assertEqual(sample.trajectories.shape, (2, 4, 3))
 
-    # def test_get_logprobs(self):
-    #     cond = {'state': tf.random.normal((2, 4, 11))}
-    #     chains = tf.random.normal((2, 11, 4, 3))
-    #     logprobs = self.vpg_diffusion.get_logprobs(cond, chains)
-    #     self.assertEqual(logprobs.shape, (2 * 10, 4, 3))
+    def test_get_logprobs(self):
+        cond = {'state': tf.random.normal((2, 4, 11))}
+        chains = tf.random.normal((2, 11, 4, 3))
+        logprobs = self.vpg_diffusion.get_logprobs(cond, chains)
+        self.assertEqual(logprobs.shape, (2 * 10, 4, 3))
 
     def test_get_logprobs_subsample(self):
         cond = {'state': tf.random.normal((2, 4, 11))}
@@ -105,14 +105,14 @@ class TestVPGDiffusion(unittest.TestCase):
         # print("logprobs:", logprobs)
         self.assertEqual(logprobs.shape, (2, 4, 3))
 
-    # def test_loss(self):
-    #     cond = {'state': tf.random.normal((2, 4, 11))}
-    #     chains = tf.random.normal((2, 11, 4, 3))
-    #     reward = tf.random.normal((2,))
-    #     loss_actor, loss_critic, eta = self.vpg_diffusion.loss(cond, chains, reward)
-    #     self.assertIsInstance(loss_actor, tf.Tensor)
-    #     self.assertIsInstance(loss_critic, tf.Tensor)
-    #     self.assertIsInstance(eta, tf.Tensor)
+    def test_loss(self):
+        cond = {'state': tf.random.normal((2, 4, 11))}
+        chains = tf.random.normal((2, 11, 4, 3))
+        reward = tf.random.normal((2,))
+        loss_actor, loss_critic, eta = self.vpg_diffusion.loss(cond, chains, reward)
+        self.assertIsInstance(loss_actor, tf.Tensor)
+        self.assertIsInstance(loss_critic, tf.Tensor)
+        self.assertIsInstance(eta, tf.Tensor)
 
 if __name__ == '__main__':
     unittest.main()
